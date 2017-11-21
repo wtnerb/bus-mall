@@ -1,0 +1,13 @@
+.buttons {
+  height:200px;
+  width:200px;
+  cursor:pointer;
+  border:none;
+  float:left;
+  padding:none;
+  margin:none;
+  background-size: contain;
+}
+body {
+  background-color: pink;
+}
