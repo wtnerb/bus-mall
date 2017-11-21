@@ -7,7 +7,7 @@ function Product(name, path) {
   // TODO: Build your constructor and necessary properties.
   this.name = name;
   this.picture = path;
-  this.clicks = 0;
+  this.votes = 0;
 }
 
 for (var i = 0; i < productNames.length; i++){
@@ -48,11 +48,11 @@ var productRank = {
 
   tallyClicks: function(elementId) {
     if (elementId === 'button1'){
-      allProducts[indecies[0]].clicks++;
+      allProducts[indecies[0]].votes++;
     } else if (elementId === 'button2'){
-      allProducts[indecies[1]].clicks++;
+      allProducts[indecies[1]].votes++;
     } else if (elementId === 'button3'){
-      allProducts[indecies[2]].clicks++;
+      allProducts[indecies[2]].votes++;
     } else console.log('error in tallyClicks method');
   },
 
@@ -62,12 +62,13 @@ var productRank = {
     var arr = [];
     var tbl = document.getElementById('tbody');
     for (var l = 0; l < allProducts.length; l++){
-      arr.push(allProducts[l].name + ' ' + allProducts[l].clicks);
+      arr.push(allProducts[l].name + ' ' + allProducts[l].votes);
     }
-    arr.push('total clicks ' + productRank.tot);
-    for (var m = 0; m < arr.length; m += 4){
+    arr.push('total votes ' + productRank.tot);
+    var increment = 4;
+    for (var m = 0; m < arr.length; m += increment){
       var rowEl = document.createElement('tr');
-      fillRow(rowEl, arr.slice(m, m + 4));
+      fillRow(rowEl, arr.slice(m, m + increment));
       tbl.appendChild(rowEl);
     }
   },
