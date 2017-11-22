@@ -45,6 +45,17 @@ var productRank = {
     b2.style.backgroundImage = allProducts[arr[1]].picture;
     b3.style.backgroundImage = allProducts[arr[2]].picture;
   },
+  disableImages: function() {
+    productRank.image1.removeEventListener('click', productRank.onClick);
+    productRank.image2.removeEventListener('click', productRank.onClick);
+    productRank.image3.removeEventListener('click', productRank.onClick);
+    var b1 = document.getElementById('button1');
+    var b2 = document.getElementById('button2');
+    var b3 = document.getElementById('button3');
+    b1.disabled = true;
+    b2.disabled = true;
+    b3.disabled = true;
+  },
 
   tallyClicks: function(elementId) {
     if (elementId === 'button1'){
@@ -56,24 +67,60 @@ var productRank = {
     } else console.log('error in tallyClicks method');
   },
 
-  displayResults: function() {
+  displayResults: function(event) {
     //put results into an array
     //put array into tbl build from cookie proj
-    var arr = [];
-    var tbl = document.getElementById('tbody');
-    for (var l = 0; l < allProducts.length; l++){
-      arr.push(allProducts[l].name + ' ' + allProducts[l].votes);
-    }
-    arr.push('total votes ' + productRank.tot);
-    var increment = 4;
-    for (var m = 0; m < arr.length; m += increment){
-      var rowEl = document.createElement('tr');
-      fillRow(rowEl, arr.slice(m, m + increment));
-      tbl.appendChild(rowEl);
-    }
+    event.preventDefault();
+    productRank.sortResults();
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: allProducts.map(function(x) {return x.name;}),
+        datasets: [{
+          label: '# of Votes',
+          data: allProducts.map(function(x) {return x.votes;}),
+
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true,
+              max: 5,
+              min: 0,
+              stepSize: 1,
+            }
+          }]
+        }
+      }
+    });
+
+    //when puting into table, this made sense. Not doing that right now.s
+    // var arr = [];
+    // var tbl = document.getElementById('tbody');
+    // for (var l = 0; l < allProducts.length; l++){
+    //   arr.push(allProducts[l].name + ' ' + allProducts[l].votes);
+    // }
+    // arr.push('total votes ' + productRank.tot);
+    // var increment = 4;
+    // for (var m = 0; m < arr.length; m += increment){
+    //   var rowEl = document.createElement('tr');
+    //   fillRow(rowEl, arr.slice(m, m + increment));
+    //   tbl.appendChild(rowEl);
+    // }
+  },
+  sortResults: function() {
+    allProducts.sort(function(a, b) {
+      return b.votes - a.votes;
+    });
   },
 
   showButton: function() {
+    var button = document.getElementById('display');
+    button.style.visibility = 'visible';
+    button.addEventListener('click', productRank.displayResults);
     // TODO: Hmm... what's going to happen here?
   },
 
@@ -86,8 +133,9 @@ var productRank = {
     console.log('indecies', indecies);
     productRank.tallyClicks(productRank.clicked);
     productRank.tot++;
-    if (productRank.tot >= 15){
-      productRank.displayResults();
+    if (productRank.tot >= 5){//TODO increase after testing
+      productRank.disableImages();
+      productRank.showButton();
     }
   },
 };
@@ -95,16 +143,11 @@ var productRank = {
 // function onSubmit(event) {
 //   event.preventDefault();
 //   var item = new Store(event.target.storeName.value, parseInt(event.target.min.value), parseInt(event.target.max.value), event.target.avg.value);
-function fillRow(row, array){
-  for (var i = 0; i < array.length; i++){
-    var child = document.createElement('td');
-    child.textContent = array[i];
-    row.appendChild(child);
-  }
-}
+
 // }
 //
 // formSubmit.addEventListener('submit', onSubmit);
+var ctx = document.getElementById("myChart").getContext('2d');
 productRank.image1.addEventListener('click', productRank.onClick);
 productRank.image2.addEventListener('click', productRank.onClick);
 productRank.image3.addEventListener('click', productRank.onClick);

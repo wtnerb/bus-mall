@@ -11,3 +11,16 @@
 body {
   background-color: pink;
 }
+
+canvas {
+  width: 400px;
+  height: 400px;
+}
+#display{
+  background-color: grey;
+  color: white;
+  visibility: hidden;
+  font-family: monospace;
+  font-size: 20pt;
+
+}
