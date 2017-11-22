@@ -13,11 +13,8 @@ function Product(name, path) {
 for (var i = 0; i < productNames.length; i++){
   allProducts.push(new Product (productNames[i], 'url(assets/' + productNames[i] + '.jpg)'));
 }
-// TODO: Don't forget to build your objects. How can you do this withough having to write 14 lines of `new Product(., ., .)`?
 
 var productRank = {
-  // TODO: All the properties of the object! What do you think you need? Try to write one piece at a time and make sure it does what you want before writing a little more.
-  // NOTE: A-C-P reminder... Make very intentional and iterative changes to your code, and then A-C-P.
   image1: document.getElementById('button1'),
   image2: document.getElementById('button2'),
   image3: document.getElementById('button3'),
@@ -68,8 +65,7 @@ var productRank = {
   },
 
   displayResults: function(event) {
-    //put results into an array
-    //put array into tbl build from cookie proj
+    //sorts by votes - highest vote first. Then builds chart.
     event.preventDefault();
     productRank.sortResults();
     var myChart = new Chart(ctx, {
@@ -88,7 +84,7 @@ var productRank = {
           yAxes: [{
             ticks: {
               beginAtZero:true,
-              max: 5,
+              max: 10,
               min: 0,
               stepSize: 1,
             }
@@ -96,20 +92,6 @@ var productRank = {
         }
       }
     });
-
-    //when puting into table, this made sense. Not doing that right now.s
-    // var arr = [];
-    // var tbl = document.getElementById('tbody');
-    // for (var l = 0; l < allProducts.length; l++){
-    //   arr.push(allProducts[l].name + ' ' + allProducts[l].votes);
-    // }
-    // arr.push('total votes ' + productRank.tot);
-    // var increment = 4;
-    // for (var m = 0; m < arr.length; m += increment){
-    //   var rowEl = document.createElement('tr');
-    //   fillRow(rowEl, arr.slice(m, m + increment));
-    //   tbl.appendChild(rowEl);
-    // }
   },
   sortResults: function() {
     allProducts.sort(function(a, b) {
@@ -121,7 +103,6 @@ var productRank = {
     var button = document.getElementById('display');
     button.style.visibility = 'visible';
     button.addEventListener('click', productRank.displayResults);
-    // TODO: Hmm... what's going to happen here?
   },
 
   onClick: function(event) {
@@ -133,21 +114,14 @@ var productRank = {
     console.log('indecies', indecies);
     productRank.tallyClicks(productRank.clicked);
     productRank.tot++;
-    if (productRank.tot >= 5){//TODO increase after testing
+    if (productRank.tot >= 25){//TODO increase after testing
       productRank.disableImages();
       productRank.showButton();
     }
   },
 };
-// var formSubmit = document.getElementById('add-store');
-// function onSubmit(event) {
-//   event.preventDefault();
-//   var item = new Store(event.target.storeName.value, parseInt(event.target.min.value), parseInt(event.target.max.value), event.target.avg.value);
 
-// }
-//
-// formSubmit.addEventListener('submit', onSubmit);
-var ctx = document.getElementById("myChart").getContext('2d');
+var ctx = document.getElementById('myChart').getContext('2d');
 productRank.image1.addEventListener('click', productRank.onClick);
 productRank.image2.addEventListener('click', productRank.onClick);
 productRank.image3.addEventListener('click', productRank.onClick);
