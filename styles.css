@@ -14,7 +14,7 @@ body {
 
 canvas {
   width: 400px;
-  height: 400px;
+  height: 200px;
 }
 #display{
   background-color: grey;
@@ -22,5 +22,12 @@ canvas {
   visibility: hidden;
   font-family: monospace;
   font-size: 20pt;
-
+}
+#chart{
+  background-color: #aa0;
+  width: 850px;
+  height: 420px;
+  visibility: hidden;
+  position:absolute;
+  top: 250px;
 }

@@ -68,6 +68,8 @@ var productRank = {
     //sorts by votes - highest vote first. Then builds chart.
     event.preventDefault();
     productRank.sortResults();
+    var chr = document.getElementById('chart');
+    chr.style.visibility = 'visible';
     var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -114,7 +116,7 @@ var productRank = {
     console.log('indecies', indecies);
     productRank.tallyClicks(productRank.clicked);
     productRank.tot++;
-    if (productRank.tot >= 25){//TODO increase after testing
+    if (productRank.tot >= 5){//TODO increase after testing
       productRank.disableImages();
       productRank.showButton();
     }
