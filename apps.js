@@ -116,7 +116,7 @@ var productRank = {
     console.log('indecies', indecies);
     productRank.tallyClicks(productRank.clicked);
     productRank.tot++;
-    if (productRank.tot >= 5){//TODO increase after testing
+    if (productRank.tot >= 25){//TODO increase after testing
       productRank.disableImages();
       productRank.showButton();
     }
