@@ -13,11 +13,8 @@ function Product(name, path) {
 for (var i = 0; i < productNames.length; i++){
   allProducts.push(new Product (productNames[i], 'url(assets/' + productNames[i] + '.jpg)'));
 }
-// TODO: Don't forget to build your objects. How can you do this withough having to write 14 lines of `new Product(., ., .)`?
 
 var productRank = {
-  // TODO: All the properties of the object! What do you think you need? Try to write one piece at a time and make sure it does what you want before writing a little more.
-  // NOTE: A-C-P reminder... Make very intentional and iterative changes to your code, and then A-C-P.
   image1: document.getElementById('button1'),
   image2: document.getElementById('button2'),
   image3: document.getElementById('button3'),
@@ -45,6 +42,17 @@ var productRank = {
     b2.style.backgroundImage = allProducts[arr[1]].picture;
     b3.style.backgroundImage = allProducts[arr[2]].picture;
   },
+  disableImages: function() {
+    productRank.image1.removeEventListener('click', productRank.onClick);
+    productRank.image2.removeEventListener('click', productRank.onClick);
+    productRank.image3.removeEventListener('click', productRank.onClick);
+    var b1 = document.getElementById('button1');
+    var b2 = document.getElementById('button2');
+    var b3 = document.getElementById('button3');
+    b1.disabled = true;
+    b2.disabled = true;
+    b3.disabled = true;
+  },
 
   tallyClicks: function(elementId) {
     if (elementId === 'button1'){
@@ -56,25 +64,47 @@ var productRank = {
     } else console.log('error in tallyClicks method');
   },
 
-  displayResults: function() {
-    //put results into an array
-    //put array into tbl build from cookie proj
-    var arr = [];
-    var tbl = document.getElementById('tbody');
-    for (var l = 0; l < allProducts.length; l++){
-      arr.push(allProducts[l].name + ' ' + allProducts[l].votes);
-    }
-    arr.push('total votes ' + productRank.tot);
-    var increment = 4;
-    for (var m = 0; m < arr.length; m += increment){
-      var rowEl = document.createElement('tr');
-      fillRow(rowEl, arr.slice(m, m + increment));
-      tbl.appendChild(rowEl);
-    }
+  displayResults: function(event) {
+    //sorts by votes - highest vote first. Then builds chart.
+    event.preventDefault();
+    productRank.sortResults();
+    var chr = document.getElementById('chart');
+    chr.style.visibility = 'visible';
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: allProducts.map(function(x) {return x.name;}),
+        datasets: [{
+          label: '# of Votes',
+          data: allProducts.map(function(x) {return x.votes;}),
+
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true,
+              max: 10,
+              min: 0,
+              stepSize: 1,
+            }
+          }]
+        }
+      }
+    });
+  },
+  sortResults: function() {
+    allProducts.sort(function(a, b) {
+      return b.votes - a.votes;
+    });
   },
 
   showButton: function() {
-    // TODO: Hmm... what's going to happen here?
+    var button = document.getElementById('display');
+    button.style.visibility = 'visible';
+    button.addEventListener('click', productRank.displayResults);
   },
 
   onClick: function(event) {
@@ -86,25 +116,14 @@ var productRank = {
     console.log('indecies', indecies);
     productRank.tallyClicks(productRank.clicked);
     productRank.tot++;
-    if (productRank.tot >= 15){
-      productRank.displayResults();
+    if (productRank.tot >= 25){//TODO increase after testing
+      productRank.disableImages();
+      productRank.showButton();
     }
   },
 };
-// var formSubmit = document.getElementById('add-store');
-// function onSubmit(event) {
-//   event.preventDefault();
-//   var item = new Store(event.target.storeName.value, parseInt(event.target.min.value), parseInt(event.target.max.value), event.target.avg.value);
-function fillRow(row, array){
-  for (var i = 0; i < array.length; i++){
-    var child = document.createElement('td');
-    child.textContent = array[i];
-    row.appendChild(child);
-  }
-}
-// }
-//
-// formSubmit.addEventListener('submit', onSubmit);
+
+var ctx = document.getElementById('myChart').getContext('2d');
 productRank.image1.addEventListener('click', productRank.onClick);
 productRank.image2.addEventListener('click', productRank.onClick);
 productRank.image3.addEventListener('click', productRank.onClick);
