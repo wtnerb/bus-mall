@@ -108,7 +108,7 @@ var productRank = {
 };
 
 var locStore = {
-  clicks: 0,
+  clicks: 0, //currently have no need to know total clicks. Storing that anyway.
 
   pars: function () {
     //makes allProducts match stored array - if stored array exists
@@ -123,11 +123,12 @@ var locStore = {
   },
 
   saveData: function () {
-    //
+    //puts data into storage
     var current = allProducts.map(function(x) {return x.votes;});
-    current = JSON.stringify (current);
+    current = JSON.stringify (current);//array of integers does not require stringification. Doing it anyway for practice.
     localStorage.setItem ('stuff', current);
-    localStorage.setItem ('clicks', this.clicks++);
+    this.clicks++;
+    localStorage.setItem ('clicks', this.clicks);
   },
 };
 
