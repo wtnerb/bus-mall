@@ -20,6 +20,7 @@ var productRank = {
   image3: document.getElementById('button3'),
   clicked: 0,
   tot: 0,
+  myChart: null,
 
   getRandomIndexs: function() {
     //returns array of three random and unique indexes of allProduct array
@@ -65,12 +66,12 @@ var productRank = {
   },
 
   displayResults: function(event) {
-    //sorts by votes - highest vote first. Then builds chart.
+    // sorts by votes - highest vote first. Then builds chart.
     event.preventDefault();
-    productRank.sortResults();
+    //productRank.sortResults();
     var chr = document.getElementById('chart');
     chr.style.visibility = 'visible';
-    var myChart = new Chart(ctx, {
+    productRank.myChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: allProducts.map(function(x) {return x.name;}),
@@ -109,6 +110,7 @@ var productRank = {
 
   onClick: function(event) {
     event.preventDefault();
+    locStore.pars();
     console.log(event.target);
     productRank.clicked = event.target.id;
     indecies = productRank.getRandomIndexs();
@@ -116,10 +118,37 @@ var productRank = {
     console.log('indecies', indecies);
     productRank.tallyClicks(productRank.clicked);
     productRank.tot++;
-    if (productRank.tot >= 25){//TODO increase after testing
+    locStore.saveData();
+    if (productRank.tot >= 5){//TODO increase after testing
       productRank.disableImages();
       productRank.showButton();
     }
+  },
+};
+
+var locStore = {
+  local: null,
+  current: null,
+  clicks: 0,
+
+  pars: function () {
+    //makes allProducts match stored array - if stored array exists
+    this.clicks = localStorage.getItem ('clicks');
+    this.local = JSON.parse (localStorage.getItem('stuff'));
+    if (this.local) {
+      for (i in allProducts){
+        allProducts[i].votes = this.local[i];
+      }
+    }
+    localStorage.clear();
+  },
+
+  saveData: function () {
+    this.current = allProducts.map(function(x) {return x.votes;});
+    this.current = JSON.stringify (this.current);
+    localStorage.setItem ('stuff', this.current);
+    localStorage.setItem ('clicks', this.clicks++);
+    this.curret = null;
   },
 };
 
