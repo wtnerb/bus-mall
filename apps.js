@@ -15,7 +15,6 @@ for (var i = 0; i < productNames.length; i++){
 
 var productRank = {
   images: [document.getElementById('button1'), document.getElementById('button2'), document.getElementById('button3')],
-  targt: 0,
   total: 0,
   myChart: null,
   indecies: [],//will hold the three indecies of products in allProducts for each iteration
@@ -100,12 +99,13 @@ var productRank = {
   onClick: function(event) {
     event.preventDefault();
     locStore.pars();
-    console.log(event.target);
-    productRank.targt = event.target.id;
+    var targt = event.target;
+    console.log(targt);
+    targt = targt.id;
     productRank.indecies = productRank.getRandomIndexs();
     productRank.displayImages();
     console.log('indecies', productRank.indecies);
-    productRank.tallyClicks(productRank.targt);
+    productRank.tallyClicks(targt);
     productRank.total++;
     locStore.saveData();
     if (productRank.total >= 25){//TODO increase after testing
