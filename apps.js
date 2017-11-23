@@ -54,9 +54,7 @@ var productRank = {
   },
 
   displayResults: function(event) {
-    // sorts by votes - highest vote first. Then builds chart.
     event.preventDefault();
-    //productRank.sortResults();
     var chr = document.getElementById('chart');
     chr.style.visibility = 'visible';
     productRank.myChart = new Chart(ctx, {
@@ -84,11 +82,6 @@ var productRank = {
       }
     });
   },
-  sortResults: function() {
-    allProducts.sort(function(a, b) {
-      return b.votes - a.votes;
-    });
-  },
 
   showButton: function() {
     var button = document.getElementById('display');
@@ -99,9 +92,8 @@ var productRank = {
   onClick: function(event) {
     event.preventDefault();
     locStore.pars();
-    var targt = event.target;
+    var targt = event.target.id;
     console.log(targt);
-    targt = targt.id;
     productRank.indecies = productRank.getRandomIndexs();
     productRank.displayImages();
     console.log('indecies', productRank.indecies);
@@ -116,28 +108,26 @@ var productRank = {
 };
 
 var locStore = {
-  local: null,
-  current: null,
   clicks: 0,
 
   pars: function () {
     //makes allProducts match stored array - if stored array exists
     this.clicks = localStorage.getItem ('clicks');
-    this.local = JSON.parse (localStorage.getItem('stuff'));
-    if (this.local) {
+    var local = JSON.parse (localStorage.getItem('stuff'));
+    if (local) {
       for (i in allProducts){
-        allProducts[i].votes = this.local[i];
+        allProducts[i].votes = local[i];
       }
     }
     localStorage.clear();
   },
 
   saveData: function () {
-    this.current = allProducts.map(function(x) {return x.votes;});
-    this.current = JSON.stringify (this.current);
-    localStorage.setItem ('stuff', this.current);
+    //
+    var current = allProducts.map(function(x) {return x.votes;});
+    current = JSON.stringify (current);
+    localStorage.setItem ('stuff', current);
     localStorage.setItem ('clicks', this.clicks++);
-    this.curret = null;
   },
 };
 
