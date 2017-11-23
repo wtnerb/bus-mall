@@ -14,7 +14,7 @@ for (var i = 0; i < productNames.length; i++){
 }
 
 var productRank = {
-  images: [document.getElementById('button1'), document.getElementById('button2'), document.getElementById('button3')],
+  images: [document.getElementById('0'), document.getElementById('1'), document.getElementById('2')],
   total: 0,
   myChart: null,
   indecies: [],//will hold the three indecies of products in allProducts for each iteration
@@ -43,14 +43,9 @@ var productRank = {
     }
   },
 
-  tallyClicks: function(elementId) {
-    if (elementId === 'button1'){
-      allProducts[this.indecies[0]].votes++;
-    } else if (elementId === 'button2'){
-      allProducts[this.indecies[1]].votes++;
-    } else if (elementId === 'button3'){
-      allProducts[this.indecies[2]].votes++;
-    } else console.log('error in tallyClicks method');
+  tallyClicks: function(targetId) {
+    //changed name of button Id attributes in index.html to make this easy and clean
+    allProducts[this.indecies[parseInt(targetId)]].votes++;
   },
 
   displayResults: function(event) {
