@@ -3,7 +3,6 @@ var allProducts = [];
 var productNames = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
 
 function Product(name, path) {
-  // TODO: Build your constructor and necessary properties.
   this.name = name;
   this.picture = path;
   this.votes = 0;
@@ -59,7 +58,6 @@ var productRank = {
         datasets: [{
           label: '# of Votes',
           data: allProducts.map(function(x) {return x.votes;}),
-
           borderWidth: 1
         }]
       },
@@ -68,8 +66,6 @@ var productRank = {
           yAxes: [{
             ticks: {
               beginAtZero:true,
-              max: 10,
-              min: 0,
               stepSize: 1,
             }
           }]
@@ -85,15 +81,14 @@ var productRank = {
   },
 
   onClick: function(event) {
-    event.preventDefault();
     locStore.pars();
     var targt = event.target.id;
+    productRank.tallyClicks(targt);
+    productRank.total++;
     console.log(targt);
     productRank.indecies = productRank.getRandomIndexs();
     productRank.displayImages();
     console.log('indecies', productRank.indecies);
-    productRank.tallyClicks(targt);
-    productRank.total++;
     locStore.saveData();
     if (productRank.total >= 25){//TODO increase after testing
       productRank.disableImages();
@@ -132,5 +127,5 @@ for (i in productRank.images){
   productRank.images[i].addEventListener('click', productRank.onClick);
 }
 
-productRank.indecies = productRank.getRandomIndexs();
+productRank.indecies = productRank.getRandomIndexs();//initialize survey
 productRank.displayImages();
