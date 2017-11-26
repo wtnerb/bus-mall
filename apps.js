@@ -103,7 +103,7 @@ var productRank = {
 };
 
 var locStore = {
-  //holds functionality for interacting with local storage
+  //holds functionality for interacting with local story
   clicks: 0, //currently unused
 
   pars: function () {
