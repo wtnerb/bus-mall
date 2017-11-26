@@ -32,18 +32,18 @@ var productRank = {
   },
 
   displayImages: function() {
-    for (i in this.images){
+    for (i in this.images) {
       this.images[i].style.backgroundImage = allProducts[this.indecies[i]].picture;
     }
   },
   disableImages: function() {
-    for (i in this.images){
+    for (i in this.images) {
       this.images[i].disabled = true;
     }
   },
 
   tallyClicks: function(targetId) {
-    //changed name of button Id attributes in index.html to make this easy and clean
+    //changed name of button Id attributes to match index in indecies array
     allProducts[this.indecies[parseInt(targetId)]].votes++;
   },
 
