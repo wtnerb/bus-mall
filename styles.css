@@ -30,3 +30,9 @@ canvas {
   position:absolute;
   top: 250px;
 }
+h1 {
+  padding-left: 100px;
+  font-weight: bold;
+  font-family: cursive;
+  font-size: 20pt;
+}
