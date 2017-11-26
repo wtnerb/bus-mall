@@ -28,11 +28,16 @@ canvas {
   height: 420px;
   visibility: hidden;
   position:absolute;
-  top: 250px;
+  top: 350px;
 }
-h1 {
+h2 {
   padding-left: 100px;
   font-weight: bold;
   font-family: cursive;
   font-size: 20pt;
+}
+h1 {
+  color: red;
+  position: sticky;
+  padding-left: 120px;
 }
